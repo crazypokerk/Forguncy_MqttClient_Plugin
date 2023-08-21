@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MqttClient": {
+      "commandName": "Executable",
+      "executablePath": "D:\\ForguncyDesigner\\Forguncy 9\\Website\\designerBin\\Forguncy.exe"
+    }
+  }
+}

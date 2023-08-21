@@ -1,0 +1,19 @@
+{
+  "assembly": [
+    "MqttClient.dll"
+  ],
+  "css": [],
+  "javascript": [
+
+  ],
+  "serverApiAssembly": [],
+  "image": "Resources/PluginLogo.png",
+  "description": "这是一个MQTT客户端，可连接、订阅、断开Mqtt服务器",
+  "name": "Mqtt客户端",
+  "pluginType": "command",
+  "guid": "446317a1-5fed-446d-a6cb-41fead7db47c",
+  "version": "1.0.0.0",
+  "dependenceVersion": "9.0.4.0",
+  "bundleJavaScript": true,
+  "bundleCSS": true
+}
