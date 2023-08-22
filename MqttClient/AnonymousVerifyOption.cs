@@ -30,7 +30,14 @@ namespace MqttClient
 
             try
             {
-                await clientBuilder.Subscribe_Single_Topic(connectionName.ToString());
+                if (IsSubMultipleTopics)
+                {
+                    await clientBuilder.Subscribe_Multiple_Topics(connectionName.ToString(), TopicObjects);
+                }
+                else
+                {
+                    await clientBuilder.Subscribe_Single_Topic(connectionName.ToString());
+                }
             }
             catch (Exception e)
             {

@@ -31,7 +31,7 @@ namespace MqttClient
 
         [DisplayName("是否开启SSL")]
         [OrderWeight(33)]
-        public bool EnableUseSsl { get; set; }
+        private bool EnableUseSsl { get; set; }
 
         public async Task<ExecuteResult> ExecuteAsync(IServerCommandExecuteContext dataContext)
         {
@@ -63,7 +63,7 @@ namespace MqttClient
                 CallbackServerCommandName, CallbackServerCommandParamName, _httpClient);
             if (IsSubMultipleTopics)
             {
-                await clientBuilder.Subscribe_Multiple_Topics(TopicObjects);
+                await clientBuilder.Subscribe_Multiple_Topics(connectionName.ToString(), TopicObjects);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace MqttClient
             var mqttFactory = new MqttFactory();
             var mqttClient = mqttFactory.CreateMqttClient();
             MqttClientOptions mqttClientOptions = null;
-            if ((bool)paramsList[4])
+            if (paramsList.Length == 5 && (bool)paramsList[4])
             {
                 mqttClientOptions =
                     new MqttClientOptionsBuilder().WithClientId($"Forguncy_{Guid.NewGuid().ToString()}")

@@ -80,9 +80,12 @@ namespace MqttClient
 
         public override bool GetDesignerPropertyVisible(string propertyName, CommandScope commandScope)
         {
-            return propertyName == nameof(TopicObjects)
-                ? IsSubMultipleTopics
-                : base.GetDesignerPropertyVisible(propertyName, commandScope);
+            return propertyName switch
+            {
+                nameof(TopicObjects) => IsSubMultipleTopics,
+                nameof(Topic) => !IsSubMultipleTopics,
+                _ => base.GetDesignerPropertyVisible(propertyName, commandScope)
+            };
         }
     }
 

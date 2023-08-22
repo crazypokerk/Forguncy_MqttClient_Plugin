@@ -45,20 +45,7 @@ namespace MqttClient.Utils
         {
             try
             {
-                mqttClient.ApplicationMessageReceivedAsync += e =>
-                {
-                    if (e != null)
-                    {
-                        string msg = BytesToString(e.ApplicationMessage.PayloadSegment);
-                        string topic = e.ApplicationMessage.Topic;
-                        string qoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
-                        string retained = e.ApplicationMessage.Retain.ToString();
-                        MessageHandleFunc.Invoke(msg);
-                    }
-
-                    e.DumpToConsole();
-                    return Task.CompletedTask;
-                };
+                mqttClient.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsyncFunction;
 
                 if (!await mqttClient.TryPingAsync())
                 {
@@ -80,6 +67,9 @@ namespace MqttClient.Utils
                         }
                         catch (Exception e)
                         {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
                             throw new MqttConnectingFailedException(
                                 "Mqtt server connect failed, please check the network status.", e, connetionResult);
                         }
@@ -97,23 +87,53 @@ namespace MqttClient.Utils
             }
         }
 
-        public async Task Subscribe_Multiple_Topics(List<TopicObject> topicObjects)
+        public async Task Subscribe_Multiple_Topics(string connectionName, List<TopicObject> topicObjects)
         {
-            /*
-             * This sample subscribes to several topics in a single request.
-             */
-
-            var mqttFactory = new MqttFactory();
-            var mqttClient = mqttFactory.CreateMqttClient();
-            var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("broker.hivemq.com").Build();
-            await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
-            var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder();
-            foreach (var topicObject in topicObjects)
+            try
             {
-                mqttSubscribeOptions.WithTopicFilter(f => { f.WithTopic(topicObject.Topic.ToString()); });
-            }
+                mqttClient.ApplicationMessageReceivedAsync += ApplicationMessageReceivedAsyncFunction;
 
-            await mqttClient.SubscribeAsync(mqttSubscribeOptions.Build(), CancellationToken.None);
+                if (!await mqttClient.TryPingAsync())
+                {
+                    MqttClientConnectResult connetionResult = null;
+                    if (!ClientPool.IsConnectionExist(connectionName))
+                    {
+                        try
+                        {
+                            connetionResult = await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+                            var clientGuid = Guid.NewGuid().ToString("D");
+                            ClientPool.ConnectionNameList.Add(connectionName, clientGuid);
+                            ClientPool.ClientConnectionPool.Add($"{connectionName}_{clientGuid}", mqttClient);
+
+                            var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder();
+                            foreach (var topicObject in topicObjects)
+                            {
+                                mqttSubscribeOptions.WithTopicFilter(
+                                    f => { f.WithTopic(topicObject.Topic.ToString()); });
+                            }
+
+                            await mqttClient.SubscribeAsync(mqttSubscribeOptions.Build(), CancellationToken.None);
+                        }
+                        catch (Exception e)
+                        {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
+                            throw new MqttConnectingFailedException(
+                                "Mqtt server connect failed, please check the network status.", e, connetionResult);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(
+                            "connection name already exist, please rewrite the connection name and keep the connection name unique");
+                    }
+                }
+            }
+            finally
+            {
+                // await Task.Delay(TimeSpan.FromSeconds(1));
+            }
         }
 
         public static async Task DisconnectClient(string connectionName)
@@ -127,6 +147,20 @@ namespace MqttClient.Utils
             {
                 throw new MqttClientDisconnectedException(new Exception("Disconnected mqtt client failed."));
             }
+        }
+
+        private async Task<Task> ApplicationMessageReceivedAsyncFunction(MqttApplicationMessageReceivedEventArgs e)
+        {
+            if (e != null)
+            {
+                string msg = BytesToString(e.ApplicationMessage.PayloadSegment);
+                string topic = e.ApplicationMessage.Topic;
+                string qoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
+                string retained = e.ApplicationMessage.Retain.ToString();
+                MessageHandleFunc.Invoke(msg);
+            }
+
+            return Task.CompletedTask;
         }
 
         private string BytesToString(ArraySegment<byte> payload)

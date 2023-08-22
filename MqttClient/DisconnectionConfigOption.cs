@@ -27,7 +27,7 @@ namespace MqttClient
             var connectionName = await dataContext.EvaluateFormulaAsync(ConnectionName);
             var waitSeconds = await dataContext.EvaluateFormulaAsync(WaitSeconds);
 
-            if (int.TryParse(waitSeconds.ToString(), out var validSeconds))
+            if (waitSeconds != null && int.TryParse(waitSeconds.ToString(), out var validSeconds))
             {
                 await Task.Delay(TimeSpan.FromSeconds(validSeconds));
             }
@@ -54,6 +54,8 @@ namespace MqttClient
                 case nameof(CallbackServerCommandName):
                     return false;
                 case nameof(CallbackServerCommandParamName):
+                    return false;
+                case nameof(IsSubMultipleTopics):
                     return false;
                 default:
                     return base.GetDesignerPropertyVisible(propertyName, commandScope);
