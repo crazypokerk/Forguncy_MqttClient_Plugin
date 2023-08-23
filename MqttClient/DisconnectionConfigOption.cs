@@ -33,9 +33,21 @@ namespace MqttClient
             }
 
             var client = ClientPool.GetMqttClient(connectionName.ToString());
-            if (client != null)
+            try
             {
-                await ClientBuilder.DisconnectClient(connectionName.ToString());
+                if (client != null)
+                {
+                    await ClientBuilder.DisconnectClient(connectionName.ToString());
+                    dataContext.Parameters[OutParamaterName] = $"连接: {connectionName}已断开";
+                }
+                else
+                {
+                    dataContext.Parameters[OutParamaterName] = "连接名对应的Mqtt连接不存在，请确认后重新输入连接名！";
+                }
+            }
+            catch (Exception e)
+            {
+                dataContext.Parameters[OutParamaterName] = e.ToString();
             }
 
             return new ExecuteResult();

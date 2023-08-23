@@ -83,7 +83,7 @@ namespace MqttClient.Utils
             }
             finally
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                // await Task.Delay(TimeSpan.FromSeconds(1));
             }
         }
 
@@ -138,9 +138,15 @@ namespace MqttClient.Utils
 
         public static async Task DisconnectClient(string connectionName)
         {
-            if (ClientPool.ClientConnectionPool.ContainsKey($"{connectionName}_{Guid.NewGuid()}"))
+            if (ClientPool.ClientConnectionPool.ContainsKey(
+                    $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}"))
             {
-                var client = ClientPool.ClientConnectionPool[$"{connectionName}_{Guid.NewGuid()}"];
+                var client =
+                    ClientPool.ClientConnectionPool[
+                        $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}"];
+                ClientPool.ClientConnectionPool.Remove(
+                    $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                ClientPool.ConnectionNameList.Remove(connectionName);
                 await client.TryDisconnectAsync(0);
             }
             else

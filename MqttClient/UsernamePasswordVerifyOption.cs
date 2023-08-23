@@ -61,15 +61,23 @@ namespace MqttClient
 
             var clientBuilder = ClientBuilderFactory.CreateClientBuilder(configMqttOptions, topic, dataContext,
                 CallbackServerCommandName, CallbackServerCommandParamName, _httpClient);
-            if (IsSubMultipleTopics)
+            try
             {
-                await clientBuilder.Subscribe_Multiple_Topics(connectionName.ToString(), TopicObjects);
+                if (IsSubMultipleTopics)
+                {
+                    await clientBuilder.Subscribe_Multiple_Topics(connectionName.ToString(), TopicObjects);
+                }
+                else
+                {
+                    await clientBuilder.Subscribe_Single_Topic(connectionName.ToString());
+                }
             }
-            else
+            catch (Exception e)
             {
-                await clientBuilder.Subscribe_Single_Topic(connectionName.ToString());
+                return new ExecuteResult() { ErrCode = 500, Message = e.ToString() };
             }
 
+            dataContext.Parameters[OutParamaterName] = "1";
             return new ExecuteResult();
         }
 

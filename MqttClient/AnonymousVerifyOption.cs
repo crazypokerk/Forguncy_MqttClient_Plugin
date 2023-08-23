@@ -44,6 +44,7 @@ namespace MqttClient
                 return new ExecuteResult() { ErrCode = 500, Message = e.ToString() };
             }
 
+            dataContext.Parameters[OutParamaterName] = "1";
             return new ExecuteResult();
         }
 
