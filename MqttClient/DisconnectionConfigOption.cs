@@ -77,8 +77,8 @@ namespace MqttClient
         public override string ToString()
         {
             return string.IsNullOrEmpty(OutParamaterName)
-                ? "[断开连接]Mqtt客户端"
-                : $"[断开连接]Mqtt客户端返回执行结果到参数:{OutParamaterName}";
+                ? "[断开连接]MQTT客户端"
+                : $"[断开连接]MQTT客户端返回执行结果到参数:{OutParamaterName}";
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text;
 using GrapeCity.Forguncy.Commands;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MqttClient.Utils
 {
@@ -13,9 +15,18 @@ namespace MqttClient.Utils
             return new ClientBuilder(configMqttOptions, topic.ToString(), async (message) =>
             {
                 dataContext.Parameters[callbackServerCommandParamName] = message;
+                // Dictionary<string, object> dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
+                // string str = string.Join(", ", dict);
+                // var jsonObj = new { $"{callbackServerCommandParamName}" = message };
+                // var jsonMsg = JsonSerializer.Serialize(jsonObj);
+
+                JObject jObject = new JObject();
+                jObject.Add(new JProperty(callbackServerCommandParamName, message));
+                string jsonMsg = JsonConvert.SerializeObject(jObject);
+
+
                 await _httpClient.PostAsync($"{dataContext.AppBaseUrl}ServerCommand/{callbackServerCommandName}",
-                    new StringContent(@$"{{""{callbackServerCommandParamName}"":""{message}""}}", Encoding.UTF8,
-                        "application/json"));
+                    new StringContent(jsonMsg, Encoding.UTF8, "application/json"));
             });
         }
     }

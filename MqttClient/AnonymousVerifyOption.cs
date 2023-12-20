@@ -68,8 +68,8 @@ namespace MqttClient
         public override string ToString()
         {
             return string.IsNullOrEmpty(OutParamaterName)
-                ? "[匿名验证]Mqtt客户端"
-                : $"[匿名验证]Mqtt客户端返回执行结果到参数:{OutParamaterName}";
+                ? "[匿名验证]MQTT客户端"
+                : $"[匿名验证]MQTT客户端返回执行结果到参数:{OutParamaterName}";
         }
     }
 }
