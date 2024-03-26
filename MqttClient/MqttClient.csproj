@@ -57,8 +57,12 @@
 	  <Resource Include="Resources\anonymous.png" />
 	  <None Remove="Resources\disconnection.png" />
 	  <Resource Include="Resources\disconnection.png" />
+	  <None Remove="Resources\PluginLogo.png" />
+	  <Resource Include="Resources\PluginLogo.png" />
 	  <None Remove="Resources\usernamepwd.png" />
 	  <Resource Include="Resources\usernamepwd.png" />
+	  <None Remove="Resources\publish.png" />
+	  <Resource Include="Resources\publish.png" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="&quot;..\PackageTools\ForguncyPluginPackageTool.exe&quot; $(ProjectDir) &quot;D:\ForguncyDesigner\Forguncy 9&quot; " />

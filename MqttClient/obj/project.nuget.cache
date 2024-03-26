@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7lOwkvxesH9BErVa3SJLxhhfhEPSdHpQvYH0b/HYSVoDNdqgxPywchaX+SS4Bhf+m9Z6k6B379Y7v/O6zpmLwQ==",
+  "dgSpecHash": "mTFYJe8UW+otNETClZPAHt5zVvJBj6uKyGjR+NEDU3I+2Cq7uB3GbU6fh13bAbVcoZm+55gkB+TvuQukhFPPZA==",
   "success": true,
   "projectFilePath": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
   "expectedPackageFiles": [

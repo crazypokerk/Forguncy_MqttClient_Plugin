@@ -49,7 +49,6 @@ namespace MqttClient
             {
                 dataContext.Parameters[OutParamaterName] = e.ToString();
             }
-
             return new ExecuteResult();
         }
 
@@ -77,8 +76,8 @@ namespace MqttClient
         public override string ToString()
         {
             return string.IsNullOrEmpty(OutParamaterName)
-                ? "[断开连接]MQTT客户端"
-                : $"[断开连接]MQTT客户端返回执行结果到参数:{OutParamaterName}";
+                ? "MQTT_Client[断开连接]"
+                : $"MQTT_Client[断开连接]返回执行结果到参数:{OutParamaterName}";
         }
     }
 }

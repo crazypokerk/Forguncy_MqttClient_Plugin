@@ -44,8 +44,8 @@ namespace MqttClient
                 return new ExecuteResult() { ErrCode = 500, Message = e.ToString() };
             }
 
-            dataContext.Parameters[OutParamaterName] = "1";
-            return new ExecuteResult();
+            dataContext.Parameters[OutParamaterName] = "Anonymous verify, status normal, subscribe successful.";
+            return new ExecuteResult(){ ErrCode = 0, Message = "Subscribe successful!" };;
         }
 
         protected override object[] ConfigMqttClientOptions(params object[] paramsList)
@@ -68,8 +68,8 @@ namespace MqttClient
         public override string ToString()
         {
             return string.IsNullOrEmpty(OutParamaterName)
-                ? "[匿名验证]MQTT客户端"
-                : $"[匿名验证]MQTT客户端返回执行结果到参数:{OutParamaterName}";
+                ? "MQTT_Client[匿名验证]"
+                : $"MQTT_Client[匿名验证]返回执行结果到参数:{OutParamaterName}";
         }
     }
 }

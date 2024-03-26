@@ -40,6 +40,17 @@ namespace MqttClient.Utils
             this.Topic = topic;
             this.MessageHandleFunc = messageHandleFunc;
         }
+        
+        public static MqttClientOptions CreateMqttClineConnection(string clientId, string borderAddress,
+            string username, string password, double keepAlivePeriod)
+        {
+            var mqttClientOptions = new MqttClientOptionsBuilder().WithClientId(clientId)
+                .WithTcpServer(borderAddress)
+                .WithCredentials(username, password)
+                .WithKeepAlivePeriod(TimeSpan.FromSeconds(keepAlivePeriod)).Build();
+
+            return mqttClientOptions;
+        }
 
         public async Task Subscribe_Single_Topic(string connectionName)
         {

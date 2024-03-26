@@ -22,5 +22,10 @@ namespace MqttClient.Utils
             var guid = ConnectionNameList[connectionName];
             return ClientConnectionPool[$"{connectionName}_{guid}"];
         }
+
+        public static bool IsConnected(IMqttClient mqttClient)
+        {
+            return mqttClient.IsConnected;
+        }
     }
 }

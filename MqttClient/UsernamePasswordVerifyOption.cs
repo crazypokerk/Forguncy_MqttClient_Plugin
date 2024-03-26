@@ -31,7 +31,7 @@ namespace MqttClient
 
         [DisplayName("是否开启SSL")]
         [OrderWeight(33)]
-        private bool EnableUseSsl { get; set; }
+        public bool EnableUseSsl { get; set; }
 
         public async Task<ExecuteResult> ExecuteAsync(IServerCommandExecuteContext dataContext)
         {
@@ -77,8 +77,8 @@ namespace MqttClient
                 return new ExecuteResult() { ErrCode = 500, Message = e.ToString() };
             }
 
-            dataContext.Parameters[OutParamaterName] = "1";
-            return new ExecuteResult();
+            dataContext.Parameters[OutParamaterName] = "User identify, status normal, subscribe successful.";
+            return new ExecuteResult(){ ErrCode = 0, Message = "Subscribe successful!" };;
         }
 
         /**
@@ -118,8 +118,8 @@ namespace MqttClient
         public override string ToString()
         {
             return string.IsNullOrEmpty(OutParamaterName)
-                ? "[用户名密码验证]MQTT客户端"
-                : $"[用户名密码验证]MQTT 客户端返回执行结果到参数:{OutParamaterName}";
+                ? "MQTT_Client[用户名密码验证]"
+                : $"MQTT_Client[用户名密码验证]返回执行结果到参数:{OutParamaterName}";
         }
     }
 }
