@@ -22,6 +22,7 @@ namespace MqttClient.Utils
         public MqttFactory mqttFactory = null;
         public IMqttClient mqttClient = null;
         public MqttClientOptions mqttClientOptions = null;
+        public EncodingType EncodingType;
 
         class ResponseInfo
         {
@@ -32,15 +33,16 @@ namespace MqttClient.Utils
         }
 
         public ClientBuilder(object[] configMqttClientOptions, string topic,
-            Action<string> messageHandleFunc)
+            Action<string> messageHandleFunc, EncodingType encodingType)
         {
             this.mqttFactory = (MqttFactory)configMqttClientOptions[0];
             this.mqttClient = (IMqttClient)configMqttClientOptions[1];
             this.mqttClientOptions = (MqttClientOptions)configMqttClientOptions[2];
             this.Topic = topic;
             this.MessageHandleFunc = messageHandleFunc;
+            this.EncodingType = encodingType;
         }
-        
+
         public static MqttClientOptions CreateMqttClineConnection(string clientId, string borderAddress,
             string username, string password, double keepAlivePeriod)
         {
@@ -168,26 +170,24 @@ namespace MqttClient.Utils
 
         private async Task<Task> ApplicationMessageReceivedAsyncFunction(MqttApplicationMessageReceivedEventArgs e)
         {
-            if (e != null)
+            try
             {
-                string msg = BytesToString(e.ApplicationMessage.PayloadSegment);
-                string topic = e.ApplicationMessage.Topic;
-                string qoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
-                string retained = e.ApplicationMessage.Retain.ToString();
-                MessageHandleFunc.Invoke(msg);
+                if (e != null)
+                {
+                    var msg = InputEncodingString(e.ApplicationMessage.PayloadSegment, EncodingType);
+                    string topic = e.ApplicationMessage.Topic;
+                    string qoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
+                    string retained = e.ApplicationMessage.Retain.ToString();
+                    MessageHandleFunc.Invoke(msg);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
             }
 
             return Task.CompletedTask;
-        }
-
-        private string BytesToString(ArraySegment<byte> payload)
-        {
-            if (payload != null)
-            {
-                return Encoding.UTF8.GetString(payload.ToArray());
-            }
-
-            return null;
         }
 
         private static Task MakeSubscribeMultipleTopics(string[] topicsList)
@@ -211,6 +211,43 @@ namespace MqttClient.Utils
             var method = compiledAssembly.GetType("GeneratedClass")?.GetMethod("GeneratedMethod");
             if (method != null) method.Invoke(null, null);
             return Task.CompletedTask;
+        }
+
+        private static string InputEncodingString(ArraySegment<byte> payload, EncodingType encodingType)
+        {
+            string resultMsg,codingName = null;
+            byte[] bytes = payload.ToArray();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            if (payload != null)
+            {
+                switch (encodingType)
+                {
+                    case EncodingType.Utf8:
+                        resultMsg = Encoding.UTF8.GetString(bytes);
+                        codingName = "utf-8";
+                        break;
+                    case EncodingType.Gbk:
+                        Encoding gbkEncoding = Encoding.GetEncoding("GBK");
+                        resultMsg = gbkEncoding.GetString(bytes);
+                        codingName = "gbk";
+                        break;
+                    case EncodingType.Big5:
+                        Encoding big5Encoding = Encoding.GetEncoding("Big5");
+                        resultMsg = big5Encoding.GetString(bytes);
+                        codingName = "big5";
+                        break;
+                    case EncodingType.Base64:
+                        resultMsg = Convert.ToBase64String(bytes);
+                        codingName = "base64";
+                        break;
+                    default:
+                        throw new Exception("There is no support Encoding Type!");
+                }
+
+                return resultMsg;
+            }
+
+            return null;
         }
     }
 }

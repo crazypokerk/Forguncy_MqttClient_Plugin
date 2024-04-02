@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using GrapeCity.Forguncy.Commands;
 using GrapeCity.Forguncy.Plugin;
+using MqttClient;
 using MqttClient.Utils;
 using MQTTnet;
 using MQTTnet.Client;
@@ -41,6 +42,7 @@ namespace MqttClient
             var topic = await dataContext.EvaluateFormulaAsync(Topic);
             var username = await dataContext.EvaluateFormulaAsync(Username);
             var password = await dataContext.EvaluateFormulaAsync(Password);
+            var encodingType = EncodingType;
 
             object[] configMqttOptions = null;
             if (EnableUseSsl)
@@ -59,7 +61,8 @@ namespace MqttClient
                 });
             }
 
-            var clientBuilder = ClientBuilderFactory.CreateClientBuilder(configMqttOptions, topic, dataContext,
+            var clientBuilder = ClientBuilderFactory.CreateClientBuilder(encodingType, configMqttOptions, topic,
+                dataContext,
                 CallbackServerCommandName, CallbackServerCommandParamName, _httpClient);
             try
             {
@@ -78,7 +81,8 @@ namespace MqttClient
             }
 
             dataContext.Parameters[OutParamaterName] = "User identify, status normal, subscribe successful.";
-            return new ExecuteResult(){ ErrCode = 0, Message = "Subscribe successful!" };;
+            return new ExecuteResult() { ErrCode = 0, Message = "Subscribe successful!" };
+            ;
         }
 
         /**
@@ -96,6 +100,7 @@ namespace MqttClient
                         .WithTcpServer((string)paramsList[0], (int?)paramsList[1])
                         .WithCredentials((string)paramsList[2], (string)paramsList[3])
                         .WithTls()
+                        .WithKeepAlivePeriod(TimeSpan.FromSeconds(60))
                         .Build();
             }
             else
@@ -104,6 +109,7 @@ namespace MqttClient
                     new MqttClientOptionsBuilder().WithClientId($"Forguncy_{Guid.NewGuid().ToString()}")
                         .WithTcpServer((string)paramsList[0], (int?)paramsList[1])
                         .WithCredentials((string)paramsList[2], (string)paramsList[3])
+                        .WithKeepAlivePeriod(TimeSpan.FromSeconds(60))
                         .Build();
             }
 

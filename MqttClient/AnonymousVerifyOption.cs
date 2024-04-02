@@ -24,8 +24,9 @@ namespace MqttClient
             var topic = await dataContext.EvaluateFormulaAsync(Topic);
             var paramsList = new object[] { brokerAddress.ToString(), CheckPort(port) };
             var configMqttOptions = this.ConfigMqttClientOptions(paramsList);
+            var encodingType = EncodingType;
 
-            var clientBuilder = ClientBuilderFactory.CreateClientBuilder(configMqttOptions, topic, dataContext,
+            var clientBuilder = ClientBuilderFactory.CreateClientBuilder(encodingType,configMqttOptions, topic, dataContext,
                 CallbackServerCommandName, CallbackServerCommandParamName, _httpClient);
 
             try

@@ -43,6 +43,11 @@ namespace MqttClient
         [ListProperty]
         public List<TopicObject> TopicObjects { get; set; }
 
+        [DisplayName("接收数据格式")]
+        [OrderWeight(7)]
+        [Description("请选择订阅MQTT主题传输数据格式")]
+        public EncodingType EncodingType { get; set; }
+
         [DisplayName("回调服务端命令")]
         [Description("异步处理订阅主题推送消息的回调服务端命令名称")]
         [Required]
@@ -99,5 +104,13 @@ namespace MqttClient
         [DisplayName("描述")]
         [SearchableProperty]
         public string Description { get; set; }
+    }
+
+    public enum EncodingType
+    {
+        [Description("UTF-8")] Utf8,
+        [Description("GBK")] Gbk,
+        [Description("BIG5")] Big5,
+        [Description("Base64")] Base64
     }
 }

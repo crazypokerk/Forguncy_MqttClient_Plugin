@@ -14,7 +14,7 @@ namespace MqttClient
 {
     [Icon("pack://application:,,,/MqttClient;component/Resources/publish.png")]
     [Category("MQTT客户端")]
-    public class ClientPublishCommand :BaseMqttClientServerCommand, ICommandExecutableInServerSideAsync
+    public class ClientPublishCommand : BaseMqttClientServerCommand, ICommandExecutableInServerSideAsync
     {
         [FormulaProperty]
         [Description("注意：需要在连接成功后方可发布消息至对应主题")]
@@ -45,41 +45,48 @@ namespace MqttClient
 
         public async Task<ExecuteResult> ExecuteAsync(IServerCommandExecuteContext dataContext)
         {
-            var connectionName = await dataContext.EvaluateFormulaAsync(ConnectionName);
-            // var brokerAddress = await dataContext.EvaluateFormulaAsync(BrokerAddress);
-            // var username = await dataContext.EvaluateFormulaAsync(Username);
-            // var password = await dataContext.EvaluateFormulaAsync(Password);
-            var payload = await dataContext.EvaluateFormulaAsync(Payload);
-            var sendTopic = await dataContext.EvaluateFormulaAsync(SendTopic);
-            var isNeedSerializeJsonData = IsNeedSerializeJsonData;
-            // var keepAlive = KeepAlive;
-
-            if (isNeedSerializeJsonData)
+            try
             {
-                payload = JsonConvert.SerializeObject(payload);
+                var connectionName = await dataContext.EvaluateFormulaAsync(ConnectionName);
+                // var brokerAddress = await dataContext.EvaluateFormulaAsync(BrokerAddress);
+                // var username = await dataContext.EvaluateFormulaAsync(Username);
+                // var password = await dataContext.EvaluateFormulaAsync(Password);
+                var payload = await dataContext.EvaluateFormulaAsync(Payload);
+                var sendTopic = await dataContext.EvaluateFormulaAsync(SendTopic);
+                var isNeedSerializeJsonData = IsNeedSerializeJsonData;
+                // var keepAlive = KeepAlive;
+
+                if (isNeedSerializeJsonData)
+                {
+                    payload = JsonConvert.SerializeObject(payload);
+                }
+
+                var isExistConneciton = ClientPool.IsConnectionExist(connectionName.ToString());
+
+                if (isExistConneciton)
+                {
+                    var thisMqttConnection = ClientPool.GetMqttClient(connectionName.ToString());
+                    var thisMqttConnectionIsConnected = ClientPool.IsConnected(thisMqttConnection);
+                    await Publish_Application_Message(thisMqttConnectionIsConnected ? thisMqttConnection : null,
+                        sendTopic, payload.ToString());
+                }
+                else
+                {
+                    throw new MqttClientDisconnectedException(
+                        new Exception("there is no exist connection, please connect mqtt server first!"));
+                }
             }
-
-            var isExistConneciton = ClientPool.IsConnectionExist(connectionName.ToString());
-
-            if (isExistConneciton)
+            catch (Exception e)
             {
-                var thisMqttConnection = ClientPool.GetMqttClient(connectionName.ToString());
-                var thisMqttConnectionIsConnected = ClientPool.IsConnected(thisMqttConnection);
-                await Publish_Application_Message(thisMqttConnectionIsConnected ? thisMqttConnection : null,
-                    sendTopic, payload.ToString());
+                Console.WriteLine(e);
+                throw;
             }
-            else
-            {
-                throw new MqttClientDisconnectedException(
-                    new Exception("there is no exist connection, please connect mqtt server first!"));
-            }
-
             // else
             // {
             //     var mqttClientOptions = ClientBuilder.CreateMqttClineConnection($"Forguncy_{Guid.NewGuid().ToString()}",
             //         brokerAddress.ToString(), username.ToString(), password.ToString(), keepAlive);
             // }
-            return new ExecuteResult(){ ErrCode = 0, Message = "Send success!" };
+            return new ExecuteResult() { ErrCode = 0, Message = "Send success!" };
         }
 
         public static async Task Publish_Application_Message(IMqttClient mqttClient, object sendTopic, string payload)
@@ -150,7 +157,7 @@ namespace MqttClient
                 await mqttClient.DisconnectAsync();
             }
         }
-        
+
         public override bool GetDesignerPropertyVisible(string propertyName, CommandScope commandScope)
         {
             switch (propertyName)
