@@ -68,6 +68,8 @@ namespace MqttClient
                     return false;
                 case nameof(IsSubMultipleTopics):
                     return false;
+                case nameof(EncodingType):
+                    return false;
                 default:
                     return base.GetDesignerPropertyVisible(propertyName, commandScope);
             }
