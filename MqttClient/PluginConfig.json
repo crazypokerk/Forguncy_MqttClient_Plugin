@@ -12,7 +12,7 @@
   "name": "MQTT客户端",
   "pluginType": "command",
   "guid": "446317a1-5fed-446d-a6cb-41fead7db47c",
-  "version": "1.1.0.1",
+  "version": "1.2.0.0",
   "dependenceVersion": "9.0.102.0",
   "bundleJavaScript": true,
   "bundleCSS": true

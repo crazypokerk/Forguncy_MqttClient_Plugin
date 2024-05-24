@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj": {}
+    "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj": {}
   },
   "projects": {
-    "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj": {
+    "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
+        "projectUniqueName": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
         "projectName": "MqttClient",
-        "projectPath": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
-        "packagesPath": "C:\\Users\\erikxue\\.nuget\\packages\\",
-        "outputPath": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\obj\\",
+        "projectPath": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
+        "packagesPath": "C:\\Users\\erikxue.GRAPECITY\\.nuget\\packages\\",
+        "outputPath": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\erikxue\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\erikxue.GRAPECITY\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0-windows"
@@ -40,7 +40,7 @@
           "dependencies": {
             "MQTTnet": {
               "target": "Package",
-              "version": "[4.2.1.781, )"
+              "version": "[4.3.5.1141, )"
             },
             "MQTTnet.Extensions.WebSocket4Net": {
               "target": "Package",
@@ -67,7 +67,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -79,7 +80,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.321\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\erikxue.GRAPECITY\\.dotnet\\sdk\\6.0.418\\RuntimeIdentifierGraph.json"
         }
       }
     }

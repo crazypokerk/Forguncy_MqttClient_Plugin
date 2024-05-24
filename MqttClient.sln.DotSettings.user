@@ -1,4 +1,11 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CForguncy_002ECommands_002EDesign_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CForguncy_002ECommands_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CGrapeCity_002EForguncy_002ECellTypes_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CGrapeCity_002EForguncy_002EPlugin_002EDesign_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CGrapeCity_002EForguncy_002EPlugin_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CGrapeCity_002EForguncy_002EServerApi_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CForguncyDesigner_005C9_002E0_002E103_002E0_005CWebsite_005CdesignerBin_005CNewtonsoft_002EJson_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\erikxue\.nuget\packages\mqttnet\4.2.1.781\lib\net6.0\MQTTnet.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

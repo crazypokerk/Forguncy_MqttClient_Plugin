@@ -38,7 +38,7 @@ namespace MqttClient
                 if (client != null)
                 {
                     await ClientBuilder.DisconnectClient(connectionName.ToString());
-                    dataContext.Parameters[OutParamaterName] = $"连接: {connectionName}已断开";
+                    dataContext.Parameters[OutParamaterName] = $"连接: {connectionName} 已断开";
                 }
                 else
                 {

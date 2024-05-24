@@ -10,6 +10,7 @@ using Microsoft.CSharp;
 using MQTTnet;
 using MQTTnet.Adapter;
 using MQTTnet.Client;
+using MQTTnet.Exceptions;
 
 namespace MqttClient.Utils
 {
@@ -67,11 +68,34 @@ namespace MqttClient.Utils
                     {
                         try
                         {
-                            connetionResult = await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
                             var clientGuid = Guid.NewGuid().ToString("D");
                             ClientPool.ConnectionNameList.Add(connectionName, clientGuid);
                             ClientPool.ClientConnectionPool.Add($"{connectionName}_{clientGuid}", mqttClient);
+                            connetionResult = await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+                        }
+                        catch (MqttCommunicationTimedOutException e)
+                        {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
 
+                            string customMessage = "MQTT客户端连接超时，请检查连接是否正常！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
+                        }
+                        catch (MqttConnectingFailedException e)
+                        {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
+                            
+                            string customMessage = "MQTT客户端连接失败，请检查连接信息是否正确！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
+                        }
+
+                        try
+                        {
                             var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
                                 .WithTopicFilter(
                                     f => { f.WithTopic(this.Topic); })
@@ -80,17 +104,15 @@ namespace MqttClient.Utils
                         }
                         catch (Exception e)
                         {
-                            ClientPool.ClientConnectionPool.Remove(
-                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
-                            ClientPool.ConnectionNameList.Remove(connectionName);
-                            throw new MqttConnectingFailedException(
-                                "Mqtt server connect failed, please check the network status.", e, connetionResult);
+                            string customMessage = "MQTT客户端主题订阅失败，请检查主题是否正常或正确！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
                         }
                     }
                     else
                     {
                         throw new Exception(
-                            "connection name already exist, please rewrite the connection name and keep the connection name unique");
+                            "连接名已存在，请重写连接名并保证连接名唯一！");
                     }
                 }
             }
@@ -113,11 +135,34 @@ namespace MqttClient.Utils
                     {
                         try
                         {
-                            connetionResult = await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
                             var clientGuid = Guid.NewGuid().ToString("D");
                             ClientPool.ConnectionNameList.Add(connectionName, clientGuid);
                             ClientPool.ClientConnectionPool.Add($"{connectionName}_{clientGuid}", mqttClient);
+                            connetionResult = await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+                        }
+                        catch (MqttCommunicationTimedOutException e)
+                        {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
 
+                            string customMessage = "MQTT客户端连接超时，请检查连接是否正常！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
+                        }
+                        catch (MqttConnectingFailedException e)
+                        {
+                            ClientPool.ClientConnectionPool.Remove(
+                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
+                            ClientPool.ConnectionNameList.Remove(connectionName);
+                            
+                            string customMessage = "MQTT客户端连接失败，请检查连接信息是否正确！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
+                        }
+
+                        try
+                        {
                             var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder();
                             foreach (var topicObject in topicObjects)
                             {
@@ -129,17 +174,15 @@ namespace MqttClient.Utils
                         }
                         catch (Exception e)
                         {
-                            ClientPool.ClientConnectionPool.Remove(
-                                $"{connectionName}_{ClientPool.ConnectionNameList[connectionName]}");
-                            ClientPool.ConnectionNameList.Remove(connectionName);
-                            throw new MqttConnectingFailedException(
-                                "Mqtt server connect failed, please check the network status.", e, connetionResult);
+                            string customMessage = "MQTT客户端主题订阅失败，请检查主题是否正常或正确！";
+                            Exception newExpection = new InvalidOperationException(customMessage, e);
+                            throw newExpection;
                         }
                     }
                     else
                     {
                         throw new Exception(
-                            "connection name already exist, please rewrite the connection name and keep the connection name unique");
+                            "连接名已存在，请重写连接名并保证连接名唯一！");
                     }
                 }
             }
@@ -164,7 +207,7 @@ namespace MqttClient.Utils
             }
             else
             {
-                throw new MqttClientDisconnectedException(new Exception("Disconnected mqtt client failed."));
+                throw new MqttClientDisconnectedException(new Exception("错误，断开连接失败！"));
             }
         }
 
@@ -181,10 +224,11 @@ namespace MqttClient.Utils
                     MessageHandleFunc.Invoke(msg);
                 }
             }
-            catch (Exception exception)
+            catch (Exception excepetion)
             {
-                Console.WriteLine(exception);
-                throw;
+                string customMessage = "MQTT客户端主题订阅失败，请检查主题是否正常或正确！";
+                Exception newExpection = new InvalidOperationException(customMessage, excepetion);
+                throw newExpection;
             }
 
             return Task.CompletedTask;
@@ -241,7 +285,7 @@ namespace MqttClient.Utils
                         codingName = "base64";
                         break;
                     default:
-                        throw new Exception("There is no support Encoding Type!");
+                        throw new Exception("不支持的编码类型！");
                 }
 
                 return resultMsg;

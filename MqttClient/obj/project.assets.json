@@ -171,7 +171,7 @@
           }
         }
       },
-      "MQTTnet/4.2.1.781": {
+      "MQTTnet/4.3.5.1141": {
         "type": "package",
         "compile": {
           "lib/net6.0/MQTTnet.dll": {
@@ -1481,10 +1481,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "MQTTnet/4.2.1.781": {
-      "sha512": "oKPAoW1Ynukm6ws6P3NmmMlNb3xIlPVf/89WVCkoWOJdz1dYtAdGYRdqe876pVsPru4j0uyU/hKf7iL3NU1r6w==",
+    "MQTTnet/4.3.5.1141": {
+      "sha512": "1wrlAOiA8y+Cx8tSb7rj+ZfSg+0iO/Y37ijT9ST4ot8oJFklLlcYQhaqe7hUbG5Q0t2Vlj7wvUv/RcPcN3yI9w==",
       "type": "package",
-      "path": "mqttnet/4.2.1.781",
+      "path": "mqttnet/4.3.5.1141",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1511,7 +1511,7 @@
         "lib/uap10.0.10240/MQTTnet.dll",
         "lib/uap10.0.10240/MQTTnet.pri",
         "lib/uap10.0.10240/MQTTnet.xml",
-        "mqttnet.4.2.1.781.nupkg.sha512",
+        "mqttnet.4.3.5.1141.nupkg.sha512",
         "mqttnet.nuspec",
         "nuget.png"
       ]
@@ -4261,7 +4261,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "MQTTnet >= 4.2.1.781",
+      "MQTTnet >= 4.3.5.1141",
       "MQTTnet.Extensions.WebSocket4Net >= 4.2.1.781",
       "Microsoft.AspNetCore.Http.Extensions >= 2.2.0",
       "Microsoft.Extensions.DependencyInjection >= 6.0.0",
@@ -4269,19 +4269,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\erikxue\\.nuget\\packages\\": {}
+    "C:\\Users\\erikxue.GRAPECITY\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
+      "projectUniqueName": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
       "projectName": "MqttClient",
-      "projectPath": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
-      "packagesPath": "C:\\Users\\erikxue\\.nuget\\packages\\",
-      "outputPath": "D:\\ForguncyCustomerService\\MqttClient\\MqttClient\\obj\\",
+      "projectPath": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\MqttClient.csproj",
+      "packagesPath": "C:\\Users\\erikxue.GRAPECITY\\.nuget\\packages\\",
+      "outputPath": "E:\\ForguncyCustomerService\\MqttClient\\MqttClient\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\erikxue\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\erikxue.GRAPECITY\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0-windows"
@@ -4307,7 +4307,7 @@
         "dependencies": {
           "MQTTnet": {
             "target": "Package",
-            "version": "[4.2.1.781, )"
+            "version": "[4.3.5.1141, )"
           },
           "MQTTnet.Extensions.WebSocket4Net": {
             "target": "Package",
@@ -4334,7 +4334,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -4346,7 +4347,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.321\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\erikxue.GRAPECITY\\.dotnet\\sdk\\6.0.418\\RuntimeIdentifierGraph.json"
       }
     }
   }

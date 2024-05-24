@@ -8,11 +8,18 @@
     ".NETCoreApp,Version=v6.0": {
       "MqttClient/1.0.0": {
         "dependencies": {
-          "MQTTnet": "4.2.1.781",
+          "MQTTnet": "4.3.5.1141",
           "MQTTnet.Extensions.WebSocket4Net": "4.2.1.781",
           "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
-          "System.ComponentModel.Annotations": "5.0.0"
+          "System.ComponentModel.Annotations": "5.0.0",
+          "Forguncy.Commands.Design": "9.0.103.0",
+          "Forguncy.Commands": "9.0.103.0",
+          "GrapeCity.Forguncy.CellTypes": "9.0.103.0",
+          "GrapeCity.Forguncy.Plugin.Design": "9.0.103.0",
+          "GrapeCity.Forguncy.Plugin": "9.0.103.0",
+          "GrapeCity.Forguncy.ServerApi": "9.0.103.0",
+          "Newtonsoft.Json": "13.0.0.0"
         },
         "runtime": {
           "MqttClient.dll": {}
@@ -70,17 +77,17 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "MQTTnet/4.2.1.781": {
+      "MQTTnet/4.3.5.1141": {
         "runtime": {
           "lib/net6.0/MQTTnet.dll": {
-            "assemblyVersion": "4.2.1.781",
-            "fileVersion": "4.2.1.781"
+            "assemblyVersion": "4.3.5.1141",
+            "fileVersion": "4.3.5.1141"
           }
         }
       },
       "MQTTnet.Extensions.WebSocket4Net/4.2.1.781": {
         "dependencies": {
-          "MQTTnet": "4.2.1.781",
+          "MQTTnet": "4.3.5.1141",
           "WebSocket4Net": "0.15.2"
         },
         "runtime": {
@@ -619,6 +626,62 @@
             "fileVersion": "0.15.2.11"
           }
         }
+      },
+      "Forguncy.Commands.Design/9.0.103.0": {
+        "runtime": {
+          "Forguncy.Commands.Design.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "Forguncy.Commands/9.0.103.0": {
+        "runtime": {
+          "Forguncy.Commands.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "GrapeCity.Forguncy.CellTypes/9.0.103.0": {
+        "runtime": {
+          "GrapeCity.Forguncy.CellTypes.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "GrapeCity.Forguncy.Plugin.Design/9.0.103.0": {
+        "runtime": {
+          "GrapeCity.Forguncy.Plugin.Design.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "GrapeCity.Forguncy.Plugin/9.0.103.0": {
+        "runtime": {
+          "GrapeCity.Forguncy.Plugin.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "GrapeCity.Forguncy.ServerApi/9.0.103.0": {
+        "runtime": {
+          "GrapeCity.Forguncy.ServerApi.dll": {
+            "assemblyVersion": "9.0.103.0",
+            "fileVersion": "9.0.103.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
       }
     }
   },
@@ -705,12 +768,12 @@
       "path": "microsoft.win32.primitives/4.3.0",
       "hashPath": "microsoft.win32.primitives.4.3.0.nupkg.sha512"
     },
-    "MQTTnet/4.2.1.781": {
+    "MQTTnet/4.3.5.1141": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-oKPAoW1Ynukm6ws6P3NmmMlNb3xIlPVf/89WVCkoWOJdz1dYtAdGYRdqe876pVsPru4j0uyU/hKf7iL3NU1r6w==",
-      "path": "mqttnet/4.2.1.781",
-      "hashPath": "mqttnet.4.2.1.781.nupkg.sha512"
+      "sha512": "sha512-1wrlAOiA8y+Cx8tSb7rj+ZfSg+0iO/Y37ijT9ST4ot8oJFklLlcYQhaqe7hUbG5Q0t2Vlj7wvUv/RcPcN3yI9w==",
+      "path": "mqttnet/4.3.5.1141",
+      "hashPath": "mqttnet.4.3.5.1141.nupkg.sha512"
     },
     "MQTTnet.Extensions.WebSocket4Net/4.2.1.781": {
       "type": "package",
@@ -1166,6 +1229,41 @@
       "sha512": "sha512-xu6NiIDP6BEwO8cgXLUdWI8teB/TxVjzMjMYE7hcP93+MpZdxzDzz1cTFxU4OWVP0NESchcQO5LkiJ/wgB03AQ==",
       "path": "websocket4net/0.15.2",
       "hashPath": "websocket4net.0.15.2.nupkg.sha512"
+    },
+    "Forguncy.Commands.Design/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Forguncy.Commands/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GrapeCity.Forguncy.CellTypes/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GrapeCity.Forguncy.Plugin.Design/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GrapeCity.Forguncy.Plugin/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GrapeCity.Forguncy.ServerApi/9.0.103.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

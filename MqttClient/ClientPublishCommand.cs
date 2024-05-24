@@ -48,9 +48,6 @@ namespace MqttClient
             try
             {
                 var connectionName = await dataContext.EvaluateFormulaAsync(ConnectionName);
-                // var brokerAddress = await dataContext.EvaluateFormulaAsync(BrokerAddress);
-                // var username = await dataContext.EvaluateFormulaAsync(Username);
-                // var password = await dataContext.EvaluateFormulaAsync(Password);
                 var payload = await dataContext.EvaluateFormulaAsync(Payload);
                 var sendTopic = await dataContext.EvaluateFormulaAsync(SendTopic);
                 var isNeedSerializeJsonData = IsNeedSerializeJsonData;
@@ -72,20 +69,19 @@ namespace MqttClient
                 }
                 else
                 {
+                    dataContext.Parameters[OutParamaterName] = "没有已存在的连接，请先连接MQTT服务端！";
                     throw new MqttClientDisconnectedException(
-                        new Exception("there is no exist connection, please connect mqtt server first!"));
+                        new Exception("没有已存在的连接，请先连接MQTT服务端！"));
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                dataContext.Parameters[OutParamaterName] = "消息发送失败！";
+                string customMessage = "MQTT客户端主题订阅失败，请检查主题是否正常或正确！";
+                Exception newExpection = new InvalidOperationException(customMessage, e);
+                throw newExpection;
             }
-            // else
-            // {
-            //     var mqttClientOptions = ClientBuilder.CreateMqttClineConnection($"Forguncy_{Guid.NewGuid().ToString()}",
-            //         brokerAddress.ToString(), username.ToString(), password.ToString(), keepAlive);
-            // }
+            dataContext.Parameters[OutParamaterName] = "消息发送成功！";
             return new ExecuteResult() { ErrCode = 0, Message = "Send success!" };
         }
 

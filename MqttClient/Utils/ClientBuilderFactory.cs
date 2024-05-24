@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,6 +12,12 @@ namespace MqttClient.Utils
 {
     public static class ClientBuilderFactory
     {
+        public class ForguncyServerCommandResponse
+        {
+            public int ErrorCode { get; set; }
+            public string ErrorMessage { get; set; }
+        }
+
         public static ClientBuilder CreateClientBuilder(EncodingType encodingType, object[] configMqttOptions,
             object topic,
             IServerCommandExecuteContext dataContext, string callbackServerCommandName,
@@ -56,9 +63,42 @@ namespace MqttClient.Utils
                 jObject.Add(new JProperty(callbackServerCommandParamName, message));
                 string jsonMsg = JsonConvert.SerializeObject(jObject);
 
-                await _httpClient.PostAsync(
-                    $"{dataContext.AppBaseUrl}ServerCommand/{callbackServerCommandName}",
-                    new StringContent(jsonMsg, Encoding.UTF8, "application/json"));
+                try
+                {
+                    var requestResult = await _httpClient.PostAsync(
+                        $"{dataContext.AppBaseUrl}ServerCommand/{callbackServerCommandName}",
+                        new StringContent(jsonMsg, Encoding.UTF8, "application/json"));
+
+                    if (requestResult.IsSuccessStatusCode)
+                    {
+                        using (var responseContent = await requestResult.Content.ReadAsStreamAsync())
+                        using (var reader = new StreamReader(responseContent))
+                        using (var jsonTextReader = new JsonTextReader(reader))
+                        {
+                            var returnJson = JsonSerializer.Create()
+                                .Deserialize<ForguncyServerCommandResponse>(jsonTextReader);
+                            if (returnJson.ErrorCode != 0)
+                            {
+                                throw new Exception("回调服务端命令出错，调用失败！");
+                            }
+
+                            if (returnJson.ErrorCode == 401)
+                            {
+                                throw new Exception("回调服务端命令无权限，需将回调的服务端命令设置为任何人可访问！");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new HttpRequestException();
+                    }
+                }
+                catch (Exception e)
+                {
+                    string customMessage = "MQTT客户端主题订阅失败，请检查主题是否正常或正确！";
+                    Exception newExpection = new InvalidOperationException(customMessage, e);
+                    throw newExpection;
+                }
             }, encodingType);
         }
 

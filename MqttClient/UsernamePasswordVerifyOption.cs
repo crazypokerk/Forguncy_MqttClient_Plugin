@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using GrapeCity.Forguncy.Commands;
 using GrapeCity.Forguncy.Plugin;
-using MqttClient;
 using MqttClient.Utils;
 using MQTTnet;
 using MQTTnet.Client;
@@ -80,9 +79,8 @@ namespace MqttClient
                 return new ExecuteResult() { ErrCode = 500, Message = e.ToString() };
             }
 
-            dataContext.Parameters[OutParamaterName] = "User identify, status normal, subscribe successful.";
+            dataContext.Parameters[OutParamaterName] = "用户认证成功，连接正常，订阅成功。";
             return new ExecuteResult() { ErrCode = 0, Message = "Subscribe successful!" };
-            ;
         }
 
         /**
